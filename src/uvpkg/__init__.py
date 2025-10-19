@@ -78,9 +78,9 @@ def get_package_name_from_args():
     return args.package_name
 
 
-def check_uv_installed() -> bool:
+def check_installed(app: str) -> bool:
     try:
-        local["uv"]
+        _ = local[app]
         return True
     except Exception:
         return False
@@ -98,10 +98,16 @@ def run_uv(programming_dir: str, package_name: str) -> None:
         uv_executable["init", "--package", package_name]()
 
 
+def open_pkg(programming_dir: str, package_name: str) -> None:
+    pycharm = local["pycharm"]
+    with local.cwd(os_path.join(programming_dir, package_name)):
+        pycharm["."]()
+
+
 def main() -> None:
     package_name = get_package_name_from_args()
 
-    if not check_uv_installed():
+    if not check_installed("uv"):
         print("Error: 'uv' command-line tool is not installed or not found in PATH.")
         return
 
@@ -115,3 +121,8 @@ def main() -> None:
         return
 
     run_uv(config.programming_dir, package_name)
+    print(f"Package '{package_name}' created successfully.")
+
+    if check_installed("pycharm"):
+        open_pkg(config.programming_dir, package_name)
+        print(f"Package '{package_name}' opened successfully.")
