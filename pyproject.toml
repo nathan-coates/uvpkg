@@ -1,0 +1,27 @@
+[project]
+name = "uvpkg"
+version = "0.1.0"
+description = "Quick build uv packaged app starter (macOS-only)"
+readme = "README.md"
+authors = [
+    { name = "Nathan Coates", email = "30511439+imajacket@users.noreply.github.com" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "plumbum>=1.9.0",
+]
+
+classifiers = [
+    "Operating System :: MacOS",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python :: 3",
+]
+
+platforms = ["macOS"]
+
+[project.scripts]
+uvpkg = "uvpkg:main"
+
+[build-system]
+requires = ["uv_build>=0.9.3,<0.10.0"]
+build-backend = "uv_build"
